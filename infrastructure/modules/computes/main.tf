@@ -51,6 +51,31 @@ resource "aws_ecs_task_definition" "my_app_task" {
       name      = "my-app"
       image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.cluster_region}.amazonaws.com/${aws_ecr_repository.my-app.name}:latest"
       essential = true
+        environment = [
+        {
+          name  = "POSTGRES_DB"
+          value = var.db_name
+        },
+        {
+          name  = "POSTGRES_USER"
+          value = var.db_username
+        },
+        {
+          name  = "POSTGRES_HOST"
+          value = var.db_endpoint
+        },
+        {
+          name  = "POSTGRES_PORT"
+          value = var.db_port
+        }
+      ]
+
+      secrets = [
+        {
+          name      = "POSTGRES_PASSWORD"
+          valueFrom = var.db_password
+        }
+      ]
       portMappings = [
         {
           containerPort = var.container_port
@@ -102,7 +127,8 @@ resource "aws_iam_policy" "ecs_execution_ecr_vpc_policy" {
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
           "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:BatchCheckLayerAvailability",
+          "secretsmanager:GetSecretValue"
         ],
         Resource = "*"
       }
