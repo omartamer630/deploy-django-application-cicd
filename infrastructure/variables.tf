@@ -25,3 +25,9 @@ variable "region" {
 variable "container_port" {}
 variable "cpu" {}
 variable "memory" {}
+
+variable "db_master_password" {
+  description = "Master password for RDS"
+  type        = string
+  sensitive   = true
+}

@@ -49,7 +49,7 @@ module "computes" {
   alb_target_type         = "ip"
   db_name                 = aws_db_instance.rds_postgresql.db_name
   db_username             = aws_db_instance.rds_postgresql.username
-  db_password             = aws_db_instance.rds_postgresql.master_user_secret[0].secret_arn
+  db_password             = aws_db_instance.rds_postgresql.password
   db_endpoint             = aws_db_instance.rds_postgresql.endpoint
   db_port                 = aws_db_instance.rds_postgresql.port
   depends_on              = [aws_db_instance.rds_postgresql]
@@ -167,6 +167,7 @@ resource "aws_security_group" "vpc_1_security_group" {
 resource "aws_db_instance" "rds_postgresql" {
   identifier                  = "postgres-db"
   username                    = "omartamer"
+  password                    = var.db_master_password 
   allocated_storage           = 20
   storage_encrypted           = true
   engine                      = "postgres"
@@ -179,7 +180,7 @@ resource "aws_db_instance" "rds_postgresql" {
   copy_tags_to_snapshot       = true  # default = false
   db_subnet_group_name        = aws_db_subnet_group.db_attach_subnet.id
   vpc_security_group_ids      = [aws_security_group.ecs_sg.id]
-  manage_master_user_password = true  # manage password using secret manager service
+  manage_master_user_password = false  # manage password using secret manager service
   auto_minor_version_upgrade  = false # default = false
   allow_major_version_upgrade = true  # default = true
   backup_retention_period     = 0    # default value is 7
