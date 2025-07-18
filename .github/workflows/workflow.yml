@@ -69,7 +69,6 @@ jobs:
         cd ./app
         docker build -t $ECR_REPO_URL:${{ env.IMAGE_TAG }} .
         docker push $ECR_REPO_URL:${{ env.IMAGE_TAG }}
-
   destroy:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.action == 'destroy' && github.event.inputs.approve == 'approve' }}

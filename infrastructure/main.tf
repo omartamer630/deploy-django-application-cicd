@@ -182,11 +182,8 @@ resource "aws_db_instance" "rds_postgresql" {
   manage_master_user_password = true  # manage password using secret manager service
   auto_minor_version_upgrade  = false # default = false
   allow_major_version_upgrade = true  # default = true
-  backup_retention_period     = 7     # default value is 7
+  backup_retention_period     = 0    # default value is 7
   delete_automated_backups    = true  # default = true
-  blue_green_update {
-    enabled = true # Blue Depolyment (Prod) , Green Deployment (Staging) 
-  }
   tags = {
     Name = "${var.environment}-rds-posgress"
   }
