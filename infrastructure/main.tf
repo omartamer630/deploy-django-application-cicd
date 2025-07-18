@@ -165,6 +165,7 @@ resource "aws_security_group" "vpc_1_security_group" {
 # Database - AWS RDS
 
 resource "aws_db_instance" "rds_postgresql" {
+  
   identifier                  = "postgres-db"
   username                    = "omartamer"
   password                    = var.db_master_password 
@@ -179,7 +180,7 @@ resource "aws_db_instance" "rds_postgresql" {
   skip_final_snapshot         = true  # after deleting RDS aws will not create snapshot 
   copy_tags_to_snapshot       = true  # default = false
   db_subnet_group_name        = aws_db_subnet_group.db_attach_subnet.id
-  vpc_security_group_ids      = [aws_security_group.ecs_sg.id]
+  vpc_security_group_ids      = [aws_security_group.ecs_sg.id, aws_security_group.vpc_1_security_group.id]
   auto_minor_version_upgrade  = false # default = false
   allow_major_version_upgrade = true  # default = true
   backup_retention_period     = 0    # default value is 7
