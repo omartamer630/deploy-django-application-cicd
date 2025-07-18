@@ -1,14 +1,5 @@
 #!/bin/sh
 
-# Wait for Postgres to be ready
-echo "Waiting for PostgreSQL..."
-
-while ! nc -z "$POSTGRES_HOST" "$POSTGRES_PORT"; do
-  sleep 1
-done
-
-echo "PostgreSQL is up - continuing..."
-
 echo "Applying database migrations..."
 python manage.py migrate
 

@@ -24,7 +24,8 @@ resource "aws_ecs_service" "my_app_service" {
   depends_on = [
     aws_iam_role_policy_attachment.ecs_execution_role_policy,
     aws_iam_role_policy_attachment.ecs_execution_ecr_vpc_attach,
-    aws_iam_policy_attachment.ecs_task_s3_attach
+    aws_iam_policy_attachment.ecs_task_s3_attach,
+    aws_lb_listener.ecs_alb_listener
   ]
   load_balancer {
     target_group_arn = aws_lb_target_group.ecs_tg.arn
@@ -36,6 +37,7 @@ resource "aws_ecs_service" "my_app_service" {
     security_groups  = var.service_security_groups
     assign_public_ip = var.public_ip
   }
+  
 }
 
 resource "aws_ecs_task_definition" "my_app_task" {
@@ -81,6 +83,7 @@ resource "aws_ecs_task_definition" "my_app_task" {
       ]
     }
   ])
+  
   depends_on = [ aws_ecr_repository.my-app ]
 }
 
