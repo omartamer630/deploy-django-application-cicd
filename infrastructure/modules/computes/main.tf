@@ -67,10 +67,7 @@ resource "aws_ecs_task_definition" "my_app_task" {
         {
           name  = "POSTGRES_PORT"
           value = tostring(var.db_port)
-        }
-      ]
-
-      secrets = [
+        },
         {
           name      = "POSTGRES_PASSWORD"
           valueFrom = var.db_password
