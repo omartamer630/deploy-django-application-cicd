@@ -50,7 +50,7 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -out=tfplan -var-file="terraform-dev.tfvars"
+      run: terraform plan -out=tfplan -var-file="terraform-prod.tfvars"
 
     - name: Terraform Apply
       run: terraform apply -auto-approve tfplan
@@ -95,7 +95,7 @@ jobs:
       run: terraform init
 
     - name: Terraform Destroy Plan
-      run: terraform plan -destroy -out=destroy.plan -var-file="terraform-dev.tfvars"
+      run: terraform plan -destroy -out=destroy.plan -var-file="terraform-prod.tfvars"
 
     - name: Terraform Destroy
       run: terraform apply -auto-approve destroy.plan
