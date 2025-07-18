@@ -65,8 +65,8 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build and Push Docker Image
+      working-directory: ./app
       run: |
-        cd ./app
         docker build -t $ECR_REPO_URL:${{ env.IMAGE_TAG }} .
         docker push $ECR_REPO_URL:${{ env.IMAGE_TAG }}
   destroy:
