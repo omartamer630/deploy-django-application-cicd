@@ -12,13 +12,13 @@ on:
           - apply
           - destroy
       approve:
-        description: "Approve this action? (yes/no)"
+        description: "Approve this action? (approve/dont)"
         required: true
-        default: "no"
+        default: "dont"
         type: choice
         options:
-          - yes
-          - no
+          - approve
+          - dont
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -27,7 +27,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'apply' && github.event.inputs.approve == 'yes' }}
+    if: ${{ github.event.inputs.action == 'apply' && github.event.inputs.approve == 'approve' }}
     defaults:
       run:
         working-directory: ./infrastructure
@@ -72,7 +72,7 @@ jobs:
 
   destroy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'destroy' && github.event.inputs.approve == 'yes' }}
+    if: ${{ github.event.inputs.action == 'destroy' && github.event.inputs.approve == 'approve' }}
     defaults:
       run:
         working-directory: ./infrastructure
@@ -102,7 +102,7 @@ jobs:
 
   safeguard:
       runs-on: ubuntu-latest
-      if: ${{ github.event.inputs.approve == 'no' }}
+      if: ${{ github.event.inputs.approve == 'dont' }}
       steps:
       - name: Abort
         run: echo "Action denied by reviewer."
