@@ -93,3 +93,16 @@ resource "aws_vpc_endpoint" "s3_gateway" {
     "Name" = "${var.env}-s3-gateway"
   }
 }
+
+
+resource "aws_vpc_endpoint" "secrets_manager" {
+  vpc_id       = var.vpc_id
+  service_name = "com.amazonaws.${var.region}.secretsmanager"
+  vpc_endpoint_type = "Interface"
+  subnet_ids   = aws_subnet.private_subnet[*].id
+  security_group_ids = [var.vpc_endpoint_sg]
+    tags = {
+    "Name" = "${var.env}-s3-gateway"
+  }
+}
+}
