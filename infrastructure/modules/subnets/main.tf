@@ -102,7 +102,7 @@ resource "aws_vpc_endpoint" "secrets_manager" {
   subnet_ids   = aws_subnet.private_subnet[*].id
   security_group_ids = [var.vpc_endpoint_sg]
     tags = {
-    "Name" = "${var.env}-s3-gateway"
+    "Name" = "${var.env}-secrets-manager"
   }
 }
-}
+
