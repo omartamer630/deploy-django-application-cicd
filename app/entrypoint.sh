@@ -19,4 +19,4 @@ User.objects.filter(username='admin').exists() or \
 User.objects.create_superuser('admin', 'admin@example.com', 'adminpass')" | python manage.py shell
 
 echo "Starting server..."
-exec python manage.py runserver 0.0.0.0:80
+exec gunicorn hello_world_django_app.wsgi:application --bind 0.0.0.0:80
