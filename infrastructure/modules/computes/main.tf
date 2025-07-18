@@ -66,7 +66,7 @@ resource "aws_ecs_task_definition" "my_app_task" {
         },
         {
           name  = "POSTGRES_PORT"
-          value = var.db_port
+          value = tostring(var.db_port)
         }
       ]
 
