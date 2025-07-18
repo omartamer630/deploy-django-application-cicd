@@ -48,7 +48,7 @@ resource "aws_ecs_task_definition" "my_app_task" {
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([
     {
-      name      = "my-app"
+      name      = "${var.repo_name}"
       image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.cluster_region}.amazonaws.com/${aws_ecr_repository.my-app.name}:latest"
       essential = true
         environment = [
