@@ -128,7 +128,8 @@ resource "aws_iam_policy" "ecs_execution_ecr_vpc_policy" {
           "ecr:BatchGetImage",
           "ecr:GetAuthorizationToken",
           "ecr:BatchCheckLayerAvailability",
-          "secretsmanager:GetSecretValue"
+          "secretsmanager:GetSecretValue",
+          "kms:Decrypt"
         ],
         Resource = "*"
       }

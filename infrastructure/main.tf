@@ -184,6 +184,7 @@ resource "aws_db_instance" "rds_postgresql" {
   allow_major_version_upgrade = true  # default = true
   backup_retention_period     = 0    # default value is 7
   delete_automated_backups    = true  # default = true
+
   tags = {
     Name = "${var.environment}-rds-posgress"
   }
