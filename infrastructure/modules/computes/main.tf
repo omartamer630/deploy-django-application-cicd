@@ -72,7 +72,7 @@ resource "aws_ecs_task_definition" "my_app_task" {
         },
         {
           name      = "POSTGRES_PASSWORD"
-          valueFrom = var.db_password
+          value = var.db_password
         }
       ]
       portMappings = [
