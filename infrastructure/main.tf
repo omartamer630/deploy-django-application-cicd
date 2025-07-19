@@ -50,7 +50,7 @@ module "computes" {
   db_name                 = aws_db_instance.rds_postgresql.db_name
   db_username             = aws_db_instance.rds_postgresql.username
   db_password             = aws_db_instance.rds_postgresql.password
-  db_endpoint             = aws_db_instance.rds_postgresql.endpoint
+  db_endpoint             = aws_db_instance.rds_postgresql.address
   db_port                 = aws_db_instance.rds_postgresql.port
   depends_on              = [aws_db_instance.rds_postgresql]
 }
