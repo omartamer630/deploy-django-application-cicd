@@ -78,10 +78,8 @@ jobs:
       uses: actions/checkout@v3
     - name: Build Docker image
       run: |
-        docker build -t ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} .
+        docker build -t ${{ env.IMAGE_NAME}} .
         docker save ${{ env.IMAGE_NAME}} -o image.tar
-    - name: List files in working directory
-      run: ls -l
     - name: Upload Docker image artifact
       uses: actions/upload-artifact@v4
       with:
@@ -154,7 +152,7 @@ jobs:
     - name: Terraform Destroy
       run: terraform apply -auto-approve destroy.plan
 
-  safeguard:
+  exit:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.approve == 'dont' }}
     steps:
