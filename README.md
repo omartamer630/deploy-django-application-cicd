@@ -80,8 +80,7 @@ az = ["zone-1", "zone-2"]
 container_port     = port 
 cpu                = 1024
 memory             = 2048
-db_master_password = "hello_pass"
-...
+db_master_password = "hello_pass"...
 
 ---
 
