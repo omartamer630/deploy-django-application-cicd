@@ -92,4 +92,4 @@ For a detailed walkthrough and reasoning behind the architecture, you can read m
 [**Full Project Documentation and Insights**](https://your-blog-link.com)
 
 ---
-# Let me know if you'd like a tailored version based on your actual project layout or services used.
+ Let me know if you'd like a tailored version based on your actual project layout or services used.
