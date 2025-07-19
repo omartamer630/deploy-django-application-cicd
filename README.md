@@ -80,7 +80,8 @@ az = ["zone-1", "zone-2"]
 container_port     = port 
 cpu                = 1024
 memory             = 2048
-db_master_password = "hello_pass"...
+db_master_password = "hello_pass"
+```
 
 ---
 
@@ -91,4 +92,6 @@ For a detailed walkthrough and reasoning behind the architecture, you can read m
 [**Full Project Documentation and Insights**](https://your-blog-link.com)
 
 ---
-# Let me know if you'd like a tailored version based on your actual project layout or services used.
+
+# 
+Let me know if you'd like a tailored version based on your actual project layout or services used.
