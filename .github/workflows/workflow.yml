@@ -32,8 +32,6 @@ jobs:
     defaults:
       run:
         working-directory: ./infrastructure
-    outputs:
-          ecr_repo_url: ${{ steps.get-ecr.outputs.ecr_repo_url }}
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
@@ -92,6 +90,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
