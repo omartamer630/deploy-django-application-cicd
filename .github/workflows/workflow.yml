@@ -156,11 +156,13 @@ jobs:
       run: terraform init
 
     - name: Terraform Destroy Plan
-      run: terraform plan -destroy -out=destroy.plan -var-file="terraform-prod.tfvars"
+      run: |
+            terraform plan -destroy -out=destroy.plan -var-file="terraform-prod.tfvars"  \
+            -var-file="terraform-prod.tfvars" \
+            -var="image_name=${{ env.IMAGE_NAME }}"
 
     - name: Terraform Destroy
       run: terraform apply -auto-approve destroy.plan
-
   exit:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.approve == 'dont' }}
