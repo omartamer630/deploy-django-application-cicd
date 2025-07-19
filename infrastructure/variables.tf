@@ -31,3 +31,7 @@ variable "db_master_password" {
   type        = string
   sensitive   = true
 }
+variable "image_name" {
+  description = "Contains the image name"
+  type = string
+}

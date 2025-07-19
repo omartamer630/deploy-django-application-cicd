@@ -31,7 +31,7 @@ module "computes" {
   source                  = "./modules/computes"
   env                     = var.environment
   vpc_id                  = aws_vpc.main.id
-  repo_name               = "my-python-app"
+  repo_name               =  var.image_name
   cluster_name            = "my-app-cluster"
   cluster_region          = var.region
   ecs_type                = "FARGATE"
