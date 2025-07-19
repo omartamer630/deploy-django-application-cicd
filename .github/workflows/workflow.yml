@@ -63,6 +63,7 @@ jobs:
 
 
   build:
+    if: ${{ github.event.inputs.action == 'apply' && github.event.inputs.approve == 'approve' }}
     runs-on: ubuntu-latest
     defaults:
       run:
