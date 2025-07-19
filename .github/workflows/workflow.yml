@@ -112,6 +112,7 @@ jobs:
         path: ./app
 
     - name: Terraform Init
+      working-directory: ./infrastructure
       run: terraform init
     - name: Get ECR Repo from Terraform
       working-directory: ./infrastructure
