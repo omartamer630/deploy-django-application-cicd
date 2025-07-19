@@ -165,10 +165,10 @@ resource "aws_security_group" "vpc_1_security_group" {
 # Database - AWS RDS
 
 resource "aws_db_instance" "rds_postgresql" {
-  
+  db_name = "hello_db"
   identifier                  = "postgres-db"
-  username                    = "omartamer"
-  password                    = var.db_master_password 
+  username                    = "hello_user"
+  password                    = var.db_master_password
   allocated_storage           = 20
   storage_encrypted           = true
   engine                      = "postgres"
@@ -183,7 +183,7 @@ resource "aws_db_instance" "rds_postgresql" {
   vpc_security_group_ids      = [aws_security_group.ecs_sg.id, aws_security_group.vpc_1_security_group.id]
   auto_minor_version_upgrade  = false # default = false
   allow_major_version_upgrade = true  # default = true
-  backup_retention_period     = 0    # default value is 7
+  backup_retention_period     = 0     # default value is 7
   delete_automated_backups    = true  # default = true
 
   tags = {

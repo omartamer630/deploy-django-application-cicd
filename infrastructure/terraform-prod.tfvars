@@ -8,7 +8,7 @@ cidr_block = [
 ]
 az = ["us-east-1a", "us-east-1b"]
 
-container_port = 80
-cpu            = 1024
-memory         = 2048
-db_master_password = "omartamer123"
+container_port     = 80
+cpu                = 1024
+memory             = 2048
+db_master_password = "hello_pass"

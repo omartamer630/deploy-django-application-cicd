@@ -81,13 +81,24 @@ resource "aws_ecs_task_definition" "my_app_task" {
           hostPort      = var.host_port
         }
       ]
+      logConfiguration = {
+          logDriver = "awslogs"
+          options = {
+            awslogs-group = "/ecs/${var.repo_name}"
+            awslogs-region        = "${var.cluster_region}"
+            awslogs-stream-prefix = "ecs"
+          }
+       }
     }
   ])
   
   depends_on = [ aws_ecr_repository.my-app ]
 }
 
-
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/${var.repo_name}"
+  retention_in_days = 7
+}
 #######
 
 # IAM Role
@@ -129,7 +140,9 @@ resource "aws_iam_policy" "ecs_execution_ecr_vpc_policy" {
           "ecr:GetAuthorizationToken",
           "ecr:BatchCheckLayerAvailability",
           "secretsmanager:GetSecretValue",
-          "kms:Decrypt"
+          "kms:Decrypt",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
         ],
         Resource = "*"
       }

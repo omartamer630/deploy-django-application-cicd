@@ -18,8 +18,6 @@ variable "service_security_groups" {
   type = list(string)
 }
 
-
-
 variable "alb_target_type" {}
 variable "alb_subnets" {
   type = list(string)
