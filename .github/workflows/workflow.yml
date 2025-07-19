@@ -123,7 +123,7 @@ jobs:
         docker push ${{ needs.infrastructure.outputs.ecr_repo_url }}:${{ env.IMAGE_TAG }}
 
 
-destroy:
+  destroy:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.action == 'destroy' && github.event.inputs.approve == 'approve' }}
     defaults:
@@ -154,8 +154,8 @@ destroy:
       run: terraform apply -auto-approve destroy.plan
 
   safeguard:
-      runs-on: ubuntu-latest
-      if: ${{ github.event.inputs.approve == 'dont' }}
-      steps:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.approve == 'dont' }}
+    steps:
       - name: Abort
         run: echo "Action denied by reviewer."
