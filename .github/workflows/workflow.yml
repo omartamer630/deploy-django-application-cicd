@@ -86,7 +86,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: docker-image
-        path: /app/image.tar
+        path: ./app/image.tar
   push:
     runs-on: ubuntu-latest
     needs: [infrastructure, build]
