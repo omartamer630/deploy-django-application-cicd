@@ -79,7 +79,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} .
-        docker save ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} -o image.tar
+        docker save ${{ env.IMAGE_NAME}} -o image.tar
     - name: List files in working directory
       run: ls -l
     - name: Upload Docker image artifact
