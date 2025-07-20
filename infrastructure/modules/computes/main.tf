@@ -1,19 +1,13 @@
 # ECR 
-
 resource "aws_ecr_repository" "my-app" {
   name = var.repo_name
 }
 
 #######
-
 # ECS 
-
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = var.cluster_name
 }
-
-data "aws_caller_identity" "current" {} # to get your Account ID 
-
 
 resource "aws_ecs_service" "my_app_service" {
   name            = "${var.cluster_name}-service"
@@ -40,6 +34,8 @@ resource "aws_ecs_service" "my_app_service" {
   
 }
 
+# ECS Task Definition Configuration
+data "aws_caller_identity" "current" {} # to get your Account ID 
 resource "aws_ecs_task_definition" "my_app_task" {
   family                   = "${var.cluster_name}_task"
   requires_compatibilities = ["${var.ecs_type}"]
@@ -99,10 +95,8 @@ resource "aws_cloudwatch_log_group" "ecs_logs" {
   name              = "/ecs/${var.repo_name}"
   retention_in_days = 7
 }
-#######
 
-# IAM Role
-
+# IAM Role Configuration
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "${var.env}-ecs-task-execution-role"
 
@@ -198,10 +192,7 @@ resource "aws_iam_policy_attachment" "ecs_task_s3_attach" {
   policy_arn = aws_iam_policy.ecs_task_s3_policy.arn
 }
 
-#######
-
 # ALB 
-
 resource "aws_lb" "ecs_alb" {
   name                       = "ecs-alb"
   internal                   = false
@@ -217,7 +208,7 @@ resource "aws_lb" "ecs_alb" {
 
 resource "aws_lb_target_group" "ecs_tg" {
   name        = "ecs-target-group"
-  port        = 80 # default port to the audience
+  port        = var.container_port # default port to the audience
   protocol    = "HTTP"
   target_type = "${var.alb_target_type}"
   vpc_id      = var.vpc_id
@@ -225,13 +216,13 @@ resource "aws_lb_target_group" "ecs_tg" {
   health_check {
     path     = "/"
     protocol = "HTTP"
-    port     = 80
+    port     = var.container_port
   }
 }
 
 resource "aws_lb_listener" "ecs_alb_listener" {
   load_balancer_arn = aws_lb.ecs_alb.arn
-  port              = 80
+  port              = var.container_port
   protocol          = "HTTP"
 
   default_action {

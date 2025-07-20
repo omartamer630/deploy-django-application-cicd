@@ -26,7 +26,7 @@ module "subnet" {
   vpc_endpoint_sg = aws_security_group.vpc_endpoints_sg.id
 }
 
-
+# Computing - AWS ECS
 module "computes" {
   source                  = "./modules/computes"
   env                     = var.environment
@@ -55,11 +55,48 @@ module "computes" {
   depends_on              = [aws_db_instance.rds_postgresql]
 }
 
-#################################
+# Database - AWS RDS
+
+resource "aws_db_instance" "rds_postgresql" {
+  db_name                     = "hello_db"
+  identifier                  = "postgres-db"
+  username                    = "hello_user"
+  password                    = var.db_master_password
+  allocated_storage           = 20
+  storage_encrypted           = true
+  engine                      = "postgres"
+  engine_version              = "14"
+  instance_class              = "db.t3.micro"
+  apply_immediately           = true
+  publicly_accessible         = false # default is false
+  multi_az                    = true  # using stand alone DB
+  skip_final_snapshot         = true  # after deleting RDS aws will not create snapshot 
+  copy_tags_to_snapshot       = true  # default = false
+  db_subnet_group_name        = aws_db_subnet_group.db_attach_subnet.id
+  vpc_security_group_ids      = [aws_security_group.ecs_sg.id, aws_security_group.vpc_1_security_group.id]
+  auto_minor_version_upgrade  = false # default = false
+  allow_major_version_upgrade = true  # default = true
+  backup_retention_period     = 0     # default value is 7
+  delete_automated_backups    = true  # default = true
+
+  tags = {
+    Name = "${var.environment}-rds-posgress"
+  }
+}
+
+resource "aws_db_subnet_group" "db_attach_subnet" {
+  name = "db-subnet-group"
+  subnet_ids = [
+    "${module.subnet.private_subnet_1.id}",
+    "${module.subnet.private_subnet_2.id}"
+  ]
+  tags = {
+    Name = "${var.environment}-db-subnets"
+  }
+}
+
 
 # Security - AWS SG
-
-
 resource "aws_security_group" "vpc_endpoints_sg" {
   name_prefix = "${var.environment}-vpc-endpoints"
   description = "Associated to ECR/s3 VPC Endpoints"
@@ -145,7 +182,6 @@ resource "aws_security_group" "vpc_1_security_group" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"] # Replace with a more restrictive CIDR if needed
     security_groups = [aws_security_group.ecs_sg.id]
   }
   egress {
@@ -159,45 +195,4 @@ resource "aws_security_group" "vpc_1_security_group" {
     Name = "RDS_SG"
   }
 
-}
-#################################
-
-# Database - AWS RDS
-
-resource "aws_db_instance" "rds_postgresql" {
-  db_name = "hello_db"
-  identifier                  = "postgres-db"
-  username                    = "hello_user"
-  password                    = var.db_master_password
-  allocated_storage           = 20
-  storage_encrypted           = true
-  engine                      = "postgres"
-  engine_version              = "14"
-  instance_class              = "db.t3.micro"
-  apply_immediately           = true
-  publicly_accessible         = false # default is false
-  multi_az                    = true  # using stand alone DB
-  skip_final_snapshot         = true  # after deleting RDS aws will not create snapshot 
-  copy_tags_to_snapshot       = true  # default = false
-  db_subnet_group_name        = aws_db_subnet_group.db_attach_subnet.id
-  vpc_security_group_ids      = [aws_security_group.ecs_sg.id, aws_security_group.vpc_1_security_group.id]
-  auto_minor_version_upgrade  = false # default = false
-  allow_major_version_upgrade = true  # default = true
-  backup_retention_period     = 0     # default value is 7
-  delete_automated_backups    = true  # default = true
-
-  tags = {
-    Name = "${var.environment}-rds-posgress"
-  }
-}
-
-resource "aws_db_subnet_group" "db_attach_subnet" {
-  name = "db-subnet-group"
-  subnet_ids = [
-    "${module.subnet.private_subnet_1.id}",
-    "${module.subnet.private_subnet_2.id}"
-  ]
-  tags = {
-    Name = "${var.environment}-db-subnets"
-  }
 }

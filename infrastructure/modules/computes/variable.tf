@@ -11,6 +11,11 @@ variable "env" {}
 variable "desired_containers" {}
 variable "public_ip" {}
 variable "vpc_id" {}
+variable "db_name" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "db_endpoint" {}
+variable "db_port" {}
 variable "service_subnets" {
   type = list(string)
 }
@@ -25,8 +30,3 @@ variable "alb_subnets" {
 variable "alb_security_groups" {
   type = list(string)
 }
-variable "db_name" {}
-variable "db_username" {}
-variable "db_password" {}
-variable "db_endpoint" {}
-variable "db_port" {}
