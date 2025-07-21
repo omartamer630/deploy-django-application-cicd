@@ -60,8 +60,7 @@ jobs:
         terraform apply -auto-approve \
         -var-file="terraform-prod.tfvars" \
         -var="image_name=${{ env.IMAGE_NAME }}"
-
-
+        
   build:
     if: ${{ github.event.inputs.action == 'apply' && github.event.inputs.approve == 'approve' }}
     runs-on: ubuntu-latest

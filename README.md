@@ -92,7 +92,7 @@ db_master_password = "hello_pass"
 
 For a detailed walkthrough and reasoning behind the architecture, you can read my blog post:
 
-[**Full Project Documentation and Insights**](https://devops-journey.gitbook.io/devops-journey-docs/projects/deploying-a-secure-scalable-django-app-on-aws-ecs-with-terraform)
+[**Full Project Documentation and Insights**](https://devops-journey.gitbook.io/devops-journey-docs/projects/deploying-a-secure-django-app-on-aws-ecs-using-terraform-and-github-actions)
 
 ---
  Let me know if you'd like a tailored version based on your actual project layout or services used.
