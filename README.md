@@ -22,10 +22,13 @@ This project show how to deploy a Django application to AWS ECS using GitHub Act
 - **GitHub Actions**: CI/CD pipeline automation
 
 ---
+
 ## Architecture
+
 ![Architecture](Architecture.png)
 
 ---
+
 ## CI/CD Pipeline
 
 The CI/CD pipeline is divided into three main jobs:
